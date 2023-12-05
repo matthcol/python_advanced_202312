@@ -1,5 +1,7 @@
 from typing import override
 
+# NB: class classic.city.City
+
 class City:
     """class City representing a city with:
     - its name
