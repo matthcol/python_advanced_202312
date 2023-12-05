@@ -1,7 +1,8 @@
 from typing import override
-
+from functools import total_ordering
 # NB: class classic.city.City
 
+@total_ordering
 class City:
     """class City representing a city with:
     - its name
@@ -30,3 +31,20 @@ class City:
         if type(other) is not City:
             return NotImplemented
         return (self.name, self.zipcode) == (other.name, other.zipcode)
+    
+    @override
+    def __lt__(self, other):
+        if type(other) is not City:
+            return NotImplemented
+        # specific case with None
+        match (self.name, self.zipcode, other.name, other.zipcode):
+            case (None, _, _, _) if other.name is not None:
+                return False
+            case (_, _, None, _) if self.name is not None:
+                return True
+            case (_, None, _, _) if (self.name == other.name) and (other.zipcode is not None):
+                return False
+            case (_, _, _, None) if (self.name == other.name) and (self.zipcode is not None):
+                return True
+            case _:
+                return (self.name, self.zipcode) < (other.name, other.zipcode)
