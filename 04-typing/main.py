@@ -1,4 +1,5 @@
-from typing import List, Dict, Set, Tuple, Any, Sequence, Iterable, Iterator
+from typing import List, Dict, Set, Tuple, Any, Sequence, Iterable, Iterator, \
+    TypeVar, Generic
 
 def f(text: str) -> str:
     return text.upper()
@@ -9,11 +10,22 @@ def extract_odd_elements(l: list) -> list:
 def extract_odd_elements2(l: Sequence) -> Sequence:
     return l[1::1]
 
-def find_after_index(seq: Sequence, index: int, value: Any) -> Any|None: # i.e Optional[Any] 
+# since python 3.12
+def find_after_index[T](seq: Sequence[T], index: int, value: T) -> T|None: # i.e Optional[Any] 
     for e in seq[index:]:
         if e == value:
             return e
     return None
+
+# generics before
+_T = TypeVar("_T")
+
+def find_after_index2(seq: Sequence[_T], index: int, value: _T) -> _T|None: # i.e Optional[Any] 
+    for e in seq[index:]:
+        if e == value:
+            return e
+    return None
+
 
 def sum_square(l: List[int]) -> int:
     return sum(x**2 for x in  l)
@@ -79,6 +91,26 @@ def play_with_sequence_iterable() -> None:
     # sum5 = sum_square2(t2) # error
 
 
+def play_with_generics_312()->None:
+    l = [1,55, 23, 55, 12]
+    r1: int|None = find_after_index(l, 2, 55)
+    r2: int|None = find_after_index(l, 4, 55)
+    cities = ["Pau", "Toulouse", "Marseille", "Montpellier", "Strasbourg"]
+    r3: int|None = find_after_index(cities, 2, "Pau")
+    r4: str|None = find_after_index(cities, 2, "Montpellier")
+    print(r1, r2, r3, r4, sep=", ")
+
+def play_with_generics_typevar()->None:
+    l = [1,55, 23, 55, 12]
+    r1: int|None = find_after_index2(l, 2, 55)
+    r2: int|None = find_after_index2(l, 4, 55)
+    cities = ["Pau", "Toulouse", "Marseille", "Montpellier", "Strasbourg"]
+    r3: str|None = find_after_index2(cities, 2, "Pau")
+    r4: str|None = find_after_index2(cities, 2, "Montpellier")
+    print(r1, r2, r3, r4, sep=", ")
+    print(r3.upper() if r3 is not None else 'no result')
+    if r4 is not None:
+        print(r4.upper())
 
 
 if __name__== "__main__":
@@ -94,4 +126,5 @@ if __name__== "__main__":
     play_with_lists()
     play_with_tuples_dicts()
     play_with_sequence_iterable()
-    
+    play_with_generics_312()
+    play_with_generics_typevar()
