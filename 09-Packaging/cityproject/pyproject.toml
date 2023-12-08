@@ -1,6 +1,6 @@
 [project]
 name = "city"
-version = "1.0"
+version = "1.1"
 description = "Library with a City class"
 requires-python = ">=3.10"
 keywords = ["city", "zipcode", "population"]
@@ -12,7 +12,7 @@ maintainers = [
     {name = "Mat C.", email = "mat.c@example.org"},
 ]
 readme = "Readme.md"
-license = "LICENSE.txt"
+license = { file = "LICENSE.txt" }
 
 
 [project.optional-dependencies]
